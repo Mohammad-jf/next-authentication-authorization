@@ -1,8 +1,11 @@
+import Link from 'next/link';
 
 export default function Home() {
   return (
     <>
-      <h1>hello</h1>
+      <button className='btn'>
+        <Link href='/users/register'>Sign Up</Link>
+      </button>
     </>
-  );
+  )
 }
