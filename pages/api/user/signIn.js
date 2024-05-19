@@ -1,6 +1,8 @@
 import User from '@/models/User';
-import { hashPassword } from '@/utils/auth';
+import { hashPassword, verifyPassword } from '@/utils/auth';
 import connectDB from '@/utils/connectDB';
+import { serialize } from 'cookie';
+import { sign } from 'jsonwebtoken';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return;
@@ -15,6 +17,8 @@ export default async function handler(req, res) {
   }
 
   const { email, password } = req.body;
+  const secretKey = process.env.SECRET_KEY;
+  const expiration = 24 * 60 * 60; //24 hours in seconds
 
   switch (req.method) {
     case 'POST':
@@ -32,9 +36,35 @@ export default async function handler(req, res) {
           return res
             .status(404)
             .json({ status: 'failed', message: 'user doesnt exist' });
-        } else {
-
         }
+
+        // comparing passwords
+        const isValid = await verifyPassword(password, user.password);
+
+        // check for valid password
+        if (!isValid) {
+          return res.status(422).json({
+            status: 'failed',
+            message: 'email or password is inCorrect',
+          });
+        }
+
+        // create jwt token
+        const token = sign({ email }, secretKey, { expiresIn: expiration });
+
+        // initilize cookie info
+        const serialized = serialize('token', token, {
+          httpOnly: true,
+          maxAge: expiration,
+          path: '/',
+        });
+
+        // send res and set http only cookie
+        return res.status(200).setHeader('Set-Cookie', serialized).json({
+          status: 'success',
+          message: 'Logged in successfully',
+          email,
+        });
       } catch (error) {
         console.log(error);
         return res
