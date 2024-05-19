@@ -14,22 +14,23 @@ export default async function handler(req, res) {
       .json({ status: 'failed', message: 'Db connection failed' });
   }
 
+  const { email, password } = req.body;
+
   switch (req.method) {
     case 'POST':
-      const { email, password } = req.body;
       try {
         // check for valid data
         if (!email || !password) {
-          return req
+          return res
             .status(422)
             .json({ status: 'failed', message: 'invalid user credential' });
         }
 
         // check to see user exist or not
-        const existingUser = await User.findOne({ email });
+        const existingUser = await User.findOne({ email: email });
         if (existingUser) {
           return res
-            .staus(422)
+            .status(422)
             .json({ status: 'failed', message: 'user already exist' });
         }
 
@@ -37,10 +38,18 @@ export default async function handler(req, res) {
         const hashedPass = await hashPassword(password);
 
         // creating new user
-        const newUser = await User.create({ email, password: hashedPass });
-        res
-          .status(201)
-          .json({ status: 'success', message: 'user created', data: newUser });
+        const newUser = await User.create({
+          email: email,
+          password: hashedPass,
+        });
+        res.status(201).json({
+          status: 'success',
+          message: 'user created',
+          data: newUser,
+        });
+
+
+        
       } catch (error) {
         console.log(error);
         return res
