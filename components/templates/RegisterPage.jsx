@@ -1,11 +1,18 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const RegisterPage = () => {
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    useEffect(() => {
+        fetch('/api/user').then((res) => res.json()).then((data) => {
+            if (data.status === 'success') {
+                router.push('/dashboard')
+            }
+        })
+    }, []);
 
     const saveHandler = async () => {
         const res = await fetch('/api/user/register', {
@@ -22,7 +29,7 @@ const RegisterPage = () => {
         setEmail('')
         setPassword('')
     }
-    
+
     return (
         <div className='form-container'>
             <h3>Registration form</h3>

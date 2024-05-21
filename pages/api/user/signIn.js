@@ -52,7 +52,6 @@ export default async function handler(req, res) {
         // create jwt token
         const token = sign({ email }, secretKey, { expiresIn: expiration });
 
-
         // initilize cookie info
         const serialized = serialize('token', token, {
           // just access in server
@@ -62,7 +61,7 @@ export default async function handler(req, res) {
         });
 
         // send res and set http only cookie
-        return res.status(200).setHeader('Set-Cookie', serialized).json({
+        res.status(200).setHeader('Set-Cookie', serialized).json({
           status: 'success',
           message: 'Logged in successfully',
           email,

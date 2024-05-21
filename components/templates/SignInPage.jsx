@@ -1,11 +1,18 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const SignInPage = () => {
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    useEffect(() => {
+        fetch('/api/user').then((res) => res.json()).then((data) => {
+            if (data.status === 'success') {
+                router.push('/dashboard')
+            }
+        })
+    }, []);
 
     const saveHandler = async () => {
         const res = await fetch('/api/user/signIn', {
@@ -17,7 +24,7 @@ const SignInPage = () => {
         const data = await res.json();
         console.log(data);
         if (data.status === 'success') {
-            router.push('/')
+            router.push('/dashboard')
         }
         setEmail('')
         setPassword('')
