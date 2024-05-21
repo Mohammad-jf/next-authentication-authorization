@@ -11,18 +11,21 @@ export default function Home() {
 
   return (
     <>
-      <button className='btn'>
-        <Link href='/dashboard'>Admin Panel</Link>
-      </button>
-      <button className='btn'>
-        <Link href='/users/register'>Sign Up</Link>
-      </button>
-      <button className='btn'>
-        <Link href='/users/signIn'>Sign In</Link>
-      </button>
-      <button className='btn' onClick={signOutHandler}>
-        Sign Out
-      </button>
+      <h3>Authentication In Next.js Applications</h3>
+      <div className='btn-group'>
+        <Link href='/dashboard'>
+          <button className='btn'>Dashboard</button>
+        </Link>
+        <Link href='/users/register'>
+          <button className='btn'>Sign Up</button>
+        </Link>
+        <Link href='/users/signIn'>
+          <button className='btn'>Sign In</button>
+        </Link>
+        <button className='btn' onClick={signOutHandler}>
+          Log Out
+        </button>
+      </div>
     </>
   );
 }
