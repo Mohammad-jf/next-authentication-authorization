@@ -9,7 +9,7 @@ const SignInPage = () => {
     useEffect(() => {
         fetch('/api/user').then((res) => res.json()).then((data) => {
             if (data.status === 'success') {
-                router.push('/dashboard')
+                router.replace('/dashboard')
             }
         })
     }, []);

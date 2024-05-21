@@ -7,7 +7,7 @@ const DashBoardPage = () => {
   useEffect(() => {
     fetch('/api/user').then((res) => res.json()).then((data) => {
       if (data.status !== 'success') {
-        router.push('/users/signIn')
+        router.replace('/users/signIn')
       }
     })
   }, []);
