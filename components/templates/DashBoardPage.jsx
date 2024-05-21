@@ -1,21 +1,12 @@
-import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
 
-const DashBoardPage = () => {
-  const router = useRouter();
 
-  useEffect(() => {
-    fetch('/api/user').then((res) => res.json()).then((data) => {
-      if (data.status !== 'success') {
-        router.replace('/users/signIn')
-      }
-    })
-  }, []);
+const DashBoardPage = ({ data }) => {
 
   return (
-    <div>DashBoardPage</div>
+    <div>DashBoardPage : {data}</div>
   )
 
 }
 
 export default DashBoardPage
+
