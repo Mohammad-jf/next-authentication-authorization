@@ -10,7 +10,6 @@ export default function Home({ isLogged }) {
       method: 'DELETE',
     });
     const data = await res.json();
-    console.log(data);
     setIsLoggedIn(false);
   };
 
