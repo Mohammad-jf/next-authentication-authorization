@@ -52,8 +52,10 @@ export default async function handler(req, res) {
         // create jwt token
         const token = sign({ email }, secretKey, { expiresIn: expiration });
 
+
         // initilize cookie info
         const serialized = serialize('token', token, {
+          // just access in server
           httpOnly: true,
           maxAge: expiration,
           path: '/',
