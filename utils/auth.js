@@ -13,9 +13,9 @@ async function verifyPassword(password, hashedPass) {
   return isValid;
 }
 
-function verifyToken(token, secretKer) {
+function verifyToken(token, secretKey) {
   try {
-    const verifiedToken = verify(token, secretKer);
+    const verifiedToken = verify(token, secretKey);
     return { email: verifiedToken.email };
   } catch (error) {
     console.log(error);
