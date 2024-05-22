@@ -11,6 +11,8 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    name: { type: String },
+    lastName: { type: String },
   },
   { timestamps: true }
 );
